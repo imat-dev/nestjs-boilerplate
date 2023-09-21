@@ -6,8 +6,8 @@ import { AuthService } from './auth.service';
 import { LocalStrategy } from './guards/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './guards/jwt.strategy';
-JwtModule;
-
+import { UserEventsListener } from './events/user.events.listener';
+import { MailerService } from 'src/common/services/mailer.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
@@ -20,7 +20,7 @@ JwtModule;
       }),
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, UserEventsListener, MailerService],
   controllers: [AuthController],
 })
 export class AuthModule {}

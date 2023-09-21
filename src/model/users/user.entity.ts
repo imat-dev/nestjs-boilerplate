@@ -14,11 +14,9 @@ export class User {
   }
 
   @PrimaryGeneratedColumn()
-  @Expose()
   id: number;
 
   @Column({ unique: true })
-  @Expose()
   email: string;
 
   @Column()
@@ -26,7 +24,6 @@ export class User {
   password: string;
 
   @Column()
-  @Expose()
   firstName: string;
 
   @Column()
@@ -34,8 +31,10 @@ export class User {
   lastName: string;
 
   @CreateDateColumn({ type: 'timestamp' })
+  @Exclude()
   dateCreated: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
+  @Exclude()
   dateUpdated: Date;
 }

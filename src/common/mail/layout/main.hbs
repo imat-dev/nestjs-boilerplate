@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 20px;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      text-align: center;
+      padding: 1em;
+    }
+    .content {
+      padding: 1em;
+      text-align: left;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1em;
+    }
+    @media only screen and (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+      header, footer {
+        padding: 0.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+    {{> header }}
+    </header>
+
+    <div class="content">
+      {{> body}}
+    </div>
+
+    <footer>
+     {{> footer}}
+    </footer>
+  </div>
+
+</body>
+</html>

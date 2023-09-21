@@ -13,6 +13,7 @@ import { User } from './../model/users/user.entity';
 import { AuthService } from './auth.service';
 import { AuthenticatedUser } from './guards/auth.guard.jwt';
 import { CreateUserDto } from './dto/create-user.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Controller('auth')
 export class AuthController {

@@ -9,6 +9,8 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { UserEvents } from './events/user.events';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +18,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   public async validateUser(email: string, password: string): Promise<User> {
@@ -49,6 +52,10 @@ export class AuthService {
     };
 
     const user = await this.userRepository.save(newUser);
+
+    if (user) {
+      this.eventEmitter.emit('user.created', user);
+    }
 
     return user;
   }

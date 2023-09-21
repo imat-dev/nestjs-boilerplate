@@ -14,8 +14,6 @@ async function bootstrap() {
     });
   }
 
-  console.log(process.env.DB_NAME);
-
   const app = await NestFactory.create(AppModule);
   app.enableCors();
   app.setGlobalPrefix('api');
