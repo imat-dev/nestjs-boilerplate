@@ -20,7 +20,7 @@ export class UserEventsListener {
     });
 
     const mail = {
-      to: 'raymart.marasigan@gmail.com',
+      to: user.email,
       subject: subject,
       body: body,
     };
