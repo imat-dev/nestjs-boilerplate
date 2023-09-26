@@ -3,7 +3,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { User } from './../model/users/user.entity';
+import { AuthProvider, User } from './../model/users/user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,6 +11,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserEvents } from './events/user.events';
+import { CreateUserOauthDto } from './dto/create-user-oauth.dto';
 
 @Injectable()
 export class AuthService {
@@ -37,6 +38,14 @@ export class AuthService {
     return user;
   }
 
+  public async validateOauthUser(profileId: string, provider: AuthProvider) {
+    const user = await this.userRepository.findOne({
+      where: { provider: provider },
+    });
+
+    return user;
+  }
+
   public async register(createUserDto: CreateUserDto): Promise<User> {
     const existingUser = await this.userRepository.findOne({
       where: { email: createUserDto.email },
@@ -53,6 +62,17 @@ export class AuthService {
 
     const user = await this.userRepository.save(newUser);
 
+    if (user) {
+      this.eventEmitter.emit('user.created', user);
+    }
+
+    return user;
+  }
+
+  //Register using Oauth Google, Twitter, Github etc.
+  public async regiserOauth(userDto : CreateUserOauthDto ) {
+    const user = await this.userRepository.save(userDto)
+   
     if (user) {
       this.eventEmitter.emit('user.created', user);
     }

@@ -7,6 +7,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export enum AuthProvider {
+  LOCAL = 'local',
+  GOOGLE = 'google',
+}
+
 @Entity()
 export class User {
   constructor(partial?: Partial<User>) {
@@ -19,16 +24,26 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Exclude()
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: AuthProvider,
+    default: AuthProvider.LOCAL,
+  })
+  @Column()
+  provider: AuthProvider;
 
   @Column()
   firstName: string;
 
   @Column()
-  @Expose()
   lastName: string;
+
+  @Column({ nullable: true })
+  providerId: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   @Exclude()

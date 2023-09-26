@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './guards/jwt.strategy';
 import { UserEventsListener } from './events/user.events.listener';
 import { MailerService } from 'src/common/services/mailer.service';
+import { GoogleStrategy } from './guards/google.strategy';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
@@ -20,7 +21,14 @@ import { MailerService } from 'src/common/services/mailer.service';
       }),
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy, UserEventsListener, MailerService],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    GoogleStrategy,
+    UserEventsListener,
+    MailerService,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}

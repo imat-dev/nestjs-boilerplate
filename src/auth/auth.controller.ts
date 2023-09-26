@@ -4,6 +4,8 @@ import {
   Controller,
   Get,
   Post,
+  Req,
+  Res,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -13,6 +15,7 @@ import { User } from './../model/users/user.entity';
 import { AuthService } from './auth.service';
 import { AuthenticatedUser } from './guards/auth.guard.jwt';
 import { CreateUserDto } from './dto/create-user.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -34,6 +37,20 @@ export class AuthController {
     return {
       email: user.email,
       token: await this.authService.generateToken(user),
+    };
+  }
+
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  async googleAuth(@Req() req) {
+  }
+
+  @Get('callback/google')
+  @UseGuards(AuthGuard('google'))
+  async googleAuthRedirect(@CurrentUser() user) {
+    return {
+      email : user.email,
+      token: await this.authService.generateToken(user)
     };
   }
 
